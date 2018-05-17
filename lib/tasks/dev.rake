@@ -18,4 +18,16 @@ namespace :dev  do
       puts user.email
     end
   end 
+
+  task fake_questions: :environment do
+    Question.destroy_all
+    15.times do |i|
+      Question.create!(
+        title: FFaker::Book.title,
+        content: FFaker::Lorem.paragraph,
+        user: User.all.sample
+      )
+    end
+    puts "have created #{Question.count} fake Questions"
+  end 
 end
