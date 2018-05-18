@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="title">
+    <h2><%= @question.title %></h2>
+    </div>
+    <hr>
+    <div class="question">
+      <i class="fas fa-caret-up"></i><%= @question.upvotes_count %><i class="fas fa-caret-down"></i> <br>
+      <i class="fas fa-heart"></i><%= @question.favorites_count %> <br>
+      <%= @question.content %> <br>
+      <%= @question.user.name.upcase_first %>
+      <%= @question.created_at.to_s[0..15] %>
+    </div>
+</div>
+
