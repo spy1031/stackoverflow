@@ -21,7 +21,9 @@
           </div>
         </div>
         <div class="question-content">
+          <%= link_to question_path(question) do %>
           <h5><%= question.title %></h5>
+          <% end %>
           <p><%= truncate(question.content, length: 100) %></p>
           <div class="user-info">
             <div class="user">

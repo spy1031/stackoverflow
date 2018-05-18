@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
+  before_action :set_question, only: [:show]
 
   def index
     @questions = Question.all.page(params[:page]).per(10)
@@ -20,11 +21,18 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def show
+  end
+
   private
 
   def question_params
     params.require(:question).permit(
       :title,
       :content)
+  end
+
+  def set_question
+      @question = Question.find(params[:id])
   end
 end
