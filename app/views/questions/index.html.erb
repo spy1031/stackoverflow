@@ -1,23 +1,47 @@
 <div class="container">
-  <div class="title">
-  <h2 style="float:left;">Top Questions</h2>
-  <%= link_to '<i class="fas fa-question-circle"></i> Ask Question'.html_safe, new_question_path, class: "btn btn-info float-right" %>
-  </div>
-  <div class="clearfix"></div>
-  <hr style="margin-top: 0px;">
-  <div class="question-list">
-    <% @questions.each do |question| %>
-    <div class="question">
-      <div class="question-info"></div>
-      <div class="question-content">
-        <%= question.title %> <br>
-        <%= question.content %> <br>
-        <%= question.user.name.upcase_first %>
-        <%= question.created_at.to_s[0..15] %>
-      </div>
+  <div class="col-md-11">
+    <div class="title">
+    <h2 style="float:left;">Top Questions</h2>
+    <%= link_to '<i class="fas fa-question-circle"></i> Ask Question'.html_safe, new_question_path, class: "btn btn-info float-right" %>
     </div>
-      <hr>
-    <% end %>
+    <div class="clearfix"></div>
+    <hr style="margin-top: 0px;">
+    <div class="question-list">
+      <% @questions.each do |question| %>
+      <div class="question">
+        <div class="question-info">
+          <div class="upvotes">
+            <i class="fas fa-thumbs-up"></i> <%= question.upvotes_count %>
+          </div>
+          <div class="solutions">
+            <i class="fas fa-comment-alt"></i> <%= question.solutions_count %>
+          </div>
+          <div class="favorites">
+            <i class="fas fa-heart"></i> <%= question.favorites_count %>
+          </div>
+        </div>
+        <div class="question-content">
+          <h5><%= question.title %></h5>
+          <p><%= truncate(question.content, length: 100) %></p>
+          <div class="user-info">
+            <div class="user">
+              <div class="user-avatar">
+                 <%= image_tag "http://via.placeholder.com/30x30"  %>
+              </div>
+              <div class="user-name">
+                <h6><%= question.user.name.upcase_first %></h6>
+              </div>
+            </div>
+            <div class="action-time">
+              <p><%= question.created_at.to_s[0..15] %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+        <hr>
+      <% end %>
+    </div>
   </div>
 
   <div style="margin-top: 30px;">
