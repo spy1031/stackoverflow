@@ -4,7 +4,7 @@ class CreateSolutions < ActiveRecord::Migration[5.1]
       t.integer :user_id
       t.integer :question_id
       t.text    :content
-      t.integer :upvotes_count
+      t.integer :upvotes_count, default: 0
 
       t.timestamps
     end

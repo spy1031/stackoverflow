@@ -22,6 +22,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @solution = Solution.new
   end
   
   def favorite

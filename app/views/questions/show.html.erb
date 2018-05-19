@@ -12,3 +12,29 @@
     </div>
 </div>
 
+<div class="container">
+   
+    <% @question.solutions.each do |solution| %>
+    <div>
+     <i class="fas fa-caret-up"></i><%= solution.upvotes_count %><i class="fas fa-caret-down"></i> <br>
+      <h5><%= solution.user.name %></h5>
+      <p><%= simple_format solution.content %></p>
+      <p class="text-muted">
+        <em><%= time_ago_in_words(solution.created_at) %> ago</em>
+      </p>
+    </div>
+    <hr>
+    <% end %> 
+   
+    <%= form_for [@question, @solution] do |f| %>
+    <div class="form-group">
+      <%= f.text_area :content, placeholder: "請在這裡輸入你想回答的敘述", class: "form-control" %>
+    </div>
+    <div class="form-group">
+      <%= f.submit "確認", class: "btn btn-primary" %>
+      <%= f.button "清空", type: :reset, class: "btn btn-default" %>
+    </div>
+  <% end %>
+</div>
+
+
