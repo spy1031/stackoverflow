@@ -1,5 +1,8 @@
 <h1>this is SHOW page of user</h1>
 
+<%= link_to "我的 favorite 清單", favorite_user_path(current_user) %>
+<br>
+
 <% if @user.avatar? %>
 <%= image_tag @user.avatar, class: "img-responsive img-rounded" %>
 <% else %>

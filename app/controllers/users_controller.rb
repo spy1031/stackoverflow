@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: [:edit, :show, :update]
+  before_action :set_user, only: [:edit, :show, :update, :favorite]
   
   def edit
   end
@@ -14,6 +14,12 @@ class UsersController < ApplicationController
   end
   
   def favorite
+    if @user != current_user
+      flash[:alert] = "你不能觀看其他使用者的收藏"
+      redirect_to root_path
+    else
+      @favorited_questions = @user.favorited_questions
+    end
   end
   
   private

@@ -29,5 +29,16 @@ namespace :dev  do
       )
     end
     puts "have created #{Question.count} fake Questions"
-  end 
+  end
+  
+  task fake_favorites: :environment do
+    Favorite.destroy_all
+    10.times do |i|
+      Favorite.create!(
+        user_id: 6,
+        question_id: i + 2
+      )
+    end
+    puts "have created #{Question.count} fake Questions"
+  end
 end
