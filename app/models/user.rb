@@ -10,4 +10,9 @@ class User < ApplicationRecord
   validates_uniqueness_of :email
 
   has_many :questions, dependent: :destroy
+  
+  # 使用者能收藏很多問題 的多對多關聯
+  has_many :favorites, dependent: :destroy
+  has_many :favorited_questions, through: :favorites, source: :question
+
 end
