@@ -4,5 +4,5 @@ Rails.application.routes.draw do
   root "questions#index"
   resources :questions
   
-  resources :users, only: [:edit, :show]
+  resources :users, only: [:edit, :show, :update]
 end
