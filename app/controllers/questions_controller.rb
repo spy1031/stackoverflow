@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
-  before_action :set_question, only: [:show]
+  before_action :set_question, only: [:show, :favorite, :unfavorite]
 
   def index
     @questions = Question.all.page(params[:page]).per(10)
@@ -23,7 +23,21 @@ class QuestionsController < ApplicationController
 
   def show
   end
+  
+  def favorite
+    favorites = Favorite.where(question: @question, user: current_user)
+    if favorites.exists?
+      flash[:alert] = "已被收藏"
+    else
+      @question.favorites.create!(user: current_user)
+    end
+  end
 
+  def unfavorite
+    favorites = Favorite.where(question: @question, user: current_user)
+    favorites.destroy_all
+  end
+  
   private
 
   def question_params
@@ -33,6 +47,6 @@ class QuestionsController < ApplicationController
   end
 
   def set_question
-      @question = Question.find(params[:id])
+    @question = Question.find(params[:id])
   end
 end
