@@ -14,7 +14,7 @@
 
 <div class="container">
    
-    <% @question.solutions.each do |solution| %>
+    <% @solution_by_upvote.each do |solution| %>
     <div>
      <i class="fas fa-caret-up"></i><%= solution.upvotes_count %><i class="fas fa-caret-down"></i> <br>
       <h5><%= solution.user.name %></h5>
