@@ -22,6 +22,8 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    @solution_by_upvote = @question.solutions.order(upvotes_count: :desc)
+    @solution = Solution.new
   end
   
   def favorite

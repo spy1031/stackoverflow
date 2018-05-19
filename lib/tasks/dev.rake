@@ -39,6 +39,10 @@ namespace :dev  do
         question_id: i + 2
       )
     end
-    puts "have created #{Question.count} fake Questions"
+    puts "have created #{Favorite.count} fake Favorites"
   end
+  
+    task rebuild: ["db:drop", "db:create", "db:migrate", "db:seed", :fake_users, :fake_questions, :fake_favorites]
+
+  
 end
