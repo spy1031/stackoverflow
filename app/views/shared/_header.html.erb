@@ -25,6 +25,9 @@
           <span class="navbar-text" style="margin-right:25px;">Hi, <%= current_user.name.upcase_first %></span>
         </li>
         <li class="nav-item">
+          <span class="navbar-text" style="margin-right:25px;"><%= link_to "個人資料", user_path(current_user) %></span>
+        </li>
+        <li class="nav-item">
           <%= link_to('<i class="fas fa-sign-out-alt"></i> Logout'.html_safe, destroy_user_session_path, method: :delete, class:'nav-link') %>
         </li>
         <% else %>
