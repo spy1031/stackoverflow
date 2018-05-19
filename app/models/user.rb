@@ -14,5 +14,9 @@ class User < ApplicationRecord
   # 使用者能收藏很多問題 的多對多關聯
   has_many :favorites, dependent: :destroy
   has_many :favorited_questions, through: :favorites, source: :question
+  
+  # 使用者能對問題回答解答 的多對多關聯
+  has_many :solutions, dependent: :destroy
+  has_many :solutions_from_question, through: :solutions, source: :solution
 
 end
