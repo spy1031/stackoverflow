@@ -4,5 +4,9 @@ Rails.application.routes.draw do
   root "questions#index"
   resources :questions
   
-  resources :users, only: [:edit, :show, :update]
+  resources :users, only: [:edit, :show, :update] do
+    member do
+      get :favorite
+    end
+  end
 end

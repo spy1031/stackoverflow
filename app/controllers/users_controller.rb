@@ -13,6 +13,9 @@ class UsersController < ApplicationController
   def show
   end
   
+  def favorite
+  end
+  
   private
   def set_user
     @user = User.find(params[:id])
