@@ -1,0 +1,17 @@
+<h1>this is the favorite list</h1>
+
+<%= link_to "我的個人資料", user_path(current_user) %>
+<br>
+<br>
+
+<ul>
+  <% @favorited_questions.each do |question| %>
+  <li>投票數<%=  question.upvotes_count %></li>
+  <li>收藏數<%=  question.favorites_count %></li>
+  <li>解答數<%=  question.solutions_count %></li>
+  <li>標題<%= question.title %></li>
+  <li>內容<%= question.content %></li>
+  <li>作者<%= question.user.name %></li>
+  <br>
+  <% end %>
+</ul>
