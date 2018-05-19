@@ -31,8 +31,10 @@ gem 'jbuilder', '~> 2.5'
 gem 'devise'
 # Use kaminari to pagination
 gem 'kaminari'
-#Use ffaker to generate test data
+# Use ffaker to generate test data
 gem 'ffaker'
+# Image Upload
+gem 'carrierwave'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
