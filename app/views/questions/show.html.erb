@@ -1,14 +1,42 @@
 <div class="container">
-    <div class="title">
+
     <h2><%= @question.title %></h2>
+    <hr style="margin-top: 0px;">
+
+    <div class="row question">
+      <div class="col-1 q-info">
+        <div class="vote">
+          <i class="fas fa-caret-up"></i>
+          <p style="margin-bottom: 0;"><%= @question.upvotes_count %></p>
+          <i class="fas fa-caret-down"></i>
+        </div>
+        <div class="favorite">
+          <i class="fas fa-heart"></i>
+          <p><%= @question.favorites_count %></p>
+        </div>
+      </div>
+      <div class="col-9" style="margin-top: 20px;">
+        <%= @question.content %>
+      </div>
+      <div class="col-2" style="margin-top: 20px;">
+        <div class="user-box">
+          <%= link_to user_path(@question.user) do %>
+            <div class="user">
+              <div class="user-avatar">
+                <%= image_tag @question.user.avatar,width: '40px',height: '40px' if @question.user.avatar? %>
+                <%= image_tag "http://via.placeholder.com/40x40", class: "rounded"  unless @question.user.avatar?%>
+              </div>
+              <div class="user-name">
+                <h6><%= @question.user.name.upcase_first %></h6>
+              </div>
+            </div>
+            <% end %>
+            <div class="action-time">
+              <em><%= @question.created_at.to_s[0..15] %></em>
+            </div>
+          </div>
+      </div>
     </div>
-    <hr>
-    <div class="question">
-      <i class="fas fa-caret-up"></i><%= @question.upvotes_count %><i class="fas fa-caret-down"></i> <br>
-      <i class="fas fa-heart"></i><%= @question.favorites_count %> <br>
-      <%= @question.content %> <br>
-      <%= @question.user.name.upcase_first %>
-      <%= @question.created_at.to_s[0..15] %>
     </div>
 </div>
 

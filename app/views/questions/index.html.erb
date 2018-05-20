@@ -19,9 +19,6 @@
           <div class="favorites">
             <i class="fas fa-heart"></i> <%= question.favorites_count %>
           </div>
-          <%= link_to "收藏", favorite_question_path(question), method: :post, data: { :"disable-with" => "Waiting...." } %> ｜
-          <%= link_to "取消收藏", unfavorite_question_path(question), method: :post %>
-          (後端已好，前端請使用 ajax 實作QQ)
         </div>
         <div class="question-content">
           <%= link_to question_path(question) do %>
