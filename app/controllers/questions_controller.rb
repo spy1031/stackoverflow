@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
-  before_action :set_question, only: [:show, :favorite, :unfavorite, :upvote, :unupvote]
+  before_action :set_question, only: [:show, :favorite, :unfavorite, :upvote, :unupvote, :downvote, :undownvote]
 
   def index
     @questions = Question.all.page(params[:page]).per(10)
@@ -40,18 +40,42 @@ class QuestionsController < ApplicationController
     favorites.destroy_all
   end
   
+  # 投贊成票
   def upvote
-    upvotes = Upvote.where(question: @question, user: current_user)
+    upvotes = Upvote.where(question: @question, user: current_user, status: "up")
     if upvotes.exists?
-      flash[:alert] = "已按過"
+      flash[:notice] = "投了贊成票"
     else
-      @question.upvotes.create!(user: current_user)
+      @question.upvotes.create!(user: current_user, status: "up")
     end
+    redirect_to question_path(@question)
   end
 
+  # 收回贊成票
   def unupvote
-    upvotes = Upvote.where(question: @question, user: current_user)
+    upvotes = Upvote.where(question: @question, user: current_user, status: "up")
     upvotes.destroy_all
+    flash["alert"] = "取消贊成票"
+    redirect_to question_path(@question)
+  end
+  
+  # 投反對票
+  def downvote
+    upvotes = Upvote.where(question: @question, user: current_user, status: "down")
+    if upvotes.exists?
+      flash[:notice] = "投了反對票"
+    else
+      @question.upvotes.create!(user: current_user, status: "down")
+    end
+    redirect_to question_path(@question)
+  end
+
+  # 收回反對票
+  def undownvote
+    upvotes = Upvote.where(question: @question, user: current_user, status: "down")
+    upvotes.destroy_all
+    flash["alert"] = "取消反對票"
+    redirect_to question_path(@question)
   end
   
   private
