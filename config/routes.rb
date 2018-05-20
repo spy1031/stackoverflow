@@ -8,7 +8,27 @@ Rails.application.routes.draw do
       post :unfavorite
     end
     
-    resources :solutions, only: [:create]
+    member do
+      post :upvote      # 投贊成票
+      post :unupvote    # 若投過贊成票，取消掉
+      
+      post :downvote    # 投反對票
+      post :undownvote  # 若投過反對票，取消掉
+    end
+    
+    resources :solutions, only: [:create] do
+      member do
+        post :upvote      # 投贊成票
+        post :unupvote    # 若投過贊成票，取消掉
+
+        post :downvote    # 投反對票
+        post :undownvote  # 若投過反對票，取消掉
+      end
+    end
+  end
+  
+  resources :solutions do
+    
   end
   
   resources :users, only: [:edit, :show, :update] do
