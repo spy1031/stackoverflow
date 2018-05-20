@@ -4,7 +4,7 @@
     </div>
     <hr>
     <div class="question">
-     <%= link_to "投贊成票", upvote_question_path(@question), method: :post, data: { :"disable-with" => "Waiting...." } %> ｜<%= link_to "收回贊成票", unupvote_question_path(@question), method: :post %>
+      <%= link_to "投贊成票", upvote_question_path(@question), method: :post, data: { :"disable-with" => "Waiting...." } %> ｜<%= link_to "收回贊成票", unupvote_question_path(@question), method: :post %>
           
       <i class="fas fa-caret-up"></i>
         <%= @question.upvotes_count %>
@@ -23,7 +23,14 @@
    
     <% @solution_by_upvote.each do |solution| %>
     <div>
-     <i class="fas fa-caret-up"></i><%= solution.upvotes_count %><i class="fas fa-caret-down"></i> <br>
+      <%= link_to "投贊成票", upvote_question_solution_path(@question, solution), method: :post, data: { :"disable-with" => "Waiting...." } %> ｜<%= link_to "收回贊成票", unupvote_question_solution_path(@question, solution), method: :post %>
+      
+      <i class="fas fa-caret-up"></i>
+      <%= solution.upvotes_count %>
+      <i class="fas fa-caret-down"></i> 
+      <%= link_to "投反對票", downvote_question_solution_path(@question, solution), method: :post, data: { :"disable-with" => "Waiting...." } %> ｜<%= link_to "收回反對票", undownvote_question_solution_path(@question, solution), method: :post %>
+      <br>
+      
       <h5><%= solution.user.name %></h5>
       <p><%= simple_format solution.content %></p>
       <p class="text-muted">
