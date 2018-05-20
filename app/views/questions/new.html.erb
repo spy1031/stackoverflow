@@ -1,0 +1,15 @@
+<div class="container">
+  <h2>Ask Question</h2>
+  <hr>
+  <div class="container">
+    <%= form_for  @question do |f| %>
+      <%= f.label :title, "Title" %>
+      <%= f.text_field :title, autofocus: true, placeholder:"What's your programing question?", class:"form-control" %> <br>
+
+      <%= f.label :content, "Content" %>
+      <%= f.text_area :content, class:"form-control", style: 'height: 150px;' %> <br>
+
+      <%= f.submit  'Post Question', :class => 'btn btn-info float-right' %>
+    <% end %>
+  </div>
+</div>
