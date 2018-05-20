@@ -1,17 +1,55 @@
-<h1>this is the favorite list</h1>
+<div class="container">
+  <div class="col-md-11" style="margin:0px auto;">
+    <div class="title">
+      <h2 style="float:left;"><i class="fas fa-heart" style="font-size: 23px;"></i> My Favorites</h2>
+      <%= link_to '<i class="fas fa-user"></i> Profile'.html_safe, user_path(current_user), class: "btn btn-outline-info float-right", style: 'border-radius: 200px;' %>
+    </div>
+    <div class="clearfix"></div>
+    <hr style="margin-top: 0px;">
+    <div class="favorite-list">
+      <% @favorited_questions.each do |question| %>
+      <div class="row" style="margin: 20px auto;">
+       <div class="col-2 q-info">
+        <div class="upvotes">
+          <i class="fas fa-thumbs-up"></i> <%= question.upvotes_count %>
+        </div>
+        <div class="solutions">
+          <i class="fas fa-comment-alt"></i> <%= question.solutions_count %>
+        </div>
+        <div class="favorites">
+          <i class="fas fa-heart"></i> <%= question.favorites_count %>
+        </div>
+       </div>
 
-<%= link_to "我的個人資料", user_path(current_user) %>
-<br>
-<br>
+        <div class="col-8 q-content">
+          <%= link_to question_path(question) do %>
+          <h5><%= question.title %></h5>
+          <% end %>
+          <p><%= truncate(question.content, length: 100) %></p>
+        </div>
 
-<ul>
-  <% @favorited_questions.each do |question| %>
-  <li>投票數<%=  question.upvotes_count %></li>
-  <li>收藏數<%=  question.favorites_count %></li>
-  <li>解答數<%=  question.solutions_count %></li>
-  <li>標題<%= question.title %></li>
-  <li>內容<%= question.content %></li>
-  <li>作者<%= question.user.name %></li>
-  <br>
-  <% end %>
-</ul>
+        <div class="col-2 user-box">
+          <div class="user">
+            <div class="user-avatar">
+              <%= image_tag question.user.avatar,width: '40px',height: '40px' if question.user.avatar? %>
+              <%= image_tag "http://via.placeholder.com/40x40", class: "rounded"  unless question.user.avatar?%>
+            </div>
+            <div class="user-name">
+              <h6><%= question.user.name.upcase_first %></h6>
+            </div>
+          </div>
+
+          <div class="action-time">
+            <em><%= question.created_at.to_s[0..15] %></em>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <% end %>
+    </div>
+  </div>
+
+  <div style="margin-top: 30px;">
+    <%= paginate @favorited_questions %>
+  </div>
+</div>
