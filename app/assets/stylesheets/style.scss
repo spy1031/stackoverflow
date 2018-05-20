@@ -27,51 +27,6 @@ a {
   border: 1px solid #696969;
 }
 
-/* ============================== 02. question-index =========================*/
-.question-info {
-  float:left;
-  margin: 0px 40px 0px 20px;
-  .upvotes, .solutions, .favorites {
-    display: inline-block;
-    margin:20px 2px 20px 2px;
-  }
-
-}
-
-.question-content {
-  float:left;
-  width:800px;
-  position: relative;
-
-  p {
-    font-size: 12px;;
-  }
-}
-
-.user-info {
-  float:right;
-  width:130px;
-  position: absolute;
-  top:0;
-  left:650px;
-
-  .user {
-    background-color: #f5f5f5;
-    padding: 5px 10px 5px 10px;
-  }
-
-  .user-avatar, .user-name {
-    display: inline-block;
-    h6 {
-      margin-left: 10px;
-    }
-  }
-
-  p{
-    text-align: right;
-  }
-}
-
 /* ============================== 05. question-show =========================*/
 .user-box {
   .user {
@@ -111,8 +66,9 @@ a {
   }
 }
 
-/* ============================== 06. user-favorite =========================*/
-.favorite-list{
+/* ============================== 06. user-favorite /  =========================*/
+
+.favorite-list, .question-list {  /* 再額外加上條件 */
   .q-info {
     margin: 10px auto;
     div {
