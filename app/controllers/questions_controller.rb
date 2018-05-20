@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index]
-  before_action :set_question, only: [:show, :favorite, :unfavorite]
+  before_action :set_question, only: [:show, :favorite, :unfavorite, :upvote, :unupvote]
 
   def index
     @questions = Question.all.page(params[:page]).per(10)
@@ -38,6 +38,20 @@ class QuestionsController < ApplicationController
   def unfavorite
     favorites = Favorite.where(question: @question, user: current_user)
     favorites.destroy_all
+  end
+  
+  def upvote
+    upvotes = Upvote.where(question: @question, user: current_user)
+    if upvotes.exists?
+      flash[:alert] = "已按過"
+    else
+      @question.upvotes.create!(user: current_user)
+    end
+  end
+
+  def unupvote
+    upvotes = Upvote.where(question: @question, user: current_user)
+    upvotes.destroy_all
   end
   
   private

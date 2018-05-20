@@ -8,6 +8,11 @@ Rails.application.routes.draw do
       post :unfavorite
     end
     
+    member do
+      post :upvote
+      post :unupvote
+    end
+    
     resources :solutions, only: [:create]
   end
   

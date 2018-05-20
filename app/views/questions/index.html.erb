@@ -13,6 +13,9 @@
           <div class="upvotes">
             <i class="fas fa-thumbs-up"></i> <%= question.upvotes_count %>
           </div>
+          <%= link_to "按讚", upvote_question_path(question), method: :post, data: { :"disable-with" => "Waiting...." } %> ｜
+          <%= link_to "收回讚", unupvote_question_path(question), method: :post %>
+          (後端已好，前端請使用 ajax 實作QQ)
           <div class="solutions">
             <i class="fas fa-comment-alt"></i> <%= question.solutions_count %>
           </div>
