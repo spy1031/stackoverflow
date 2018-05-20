@@ -18,5 +18,7 @@ class User < ApplicationRecord
   # 使用者能對問題回答解答 的多對多關聯
   has_many :solutions, dependent: :destroy
   has_many :solutions_from_question, through: :solutions, source: :solution
+  
+  has_many :upvotes, dependent: :destroy
 
 end
