@@ -31,6 +31,7 @@ class QuestionsController < ApplicationController
     else
       @question.favorites.create!(user: current_user)
     end
+    render :json => {:favorites_count => @question.favorites_count}
   end
 
   def unfavorite
