@@ -8,5 +8,7 @@ class Question < ApplicationRecord
   has_many :favorited_users, through: :favorites, source: :user
   
   has_many :solutions
+  
+  has_many :upvotes, dependent: :destroy
 
 end
