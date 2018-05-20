@@ -1,5 +1,5 @@
 .container {
-  margin-top: 20px;
+  margin: 50px auto;
 }
 
 .pagination {
@@ -65,4 +65,30 @@
   p{
     text-align: right;
   }
+}
+/* ============================== 03. user#show =========================*/
+.upvote-info {
+  overflow: hidden;
+  padding: 10px 0px;
+
+  ul {
+  list-style:none;
+  float: left;
+  padding-right: .3em;
+  padding-left: 20px;
+  text-align: left;
+}
+
+  span {
+  display: inline-block;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+  li span:first-child {
+  min-width: 3em;
+  text-align: center;
+  font-weight: 500;
+  font-size: 18px;
+}
 }

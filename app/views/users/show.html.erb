@@ -1,23 +1,59 @@
-<h1>this is SHOW page of user</h1>
+<div class="container">
+  <div class="col-md-11" style="margin:0px auto;">
 
-<%= link_to "我的 favorite 清單", favorite_user_path(current_user) %>
-<br>
+    <div class="container-fuild">
+      <h2><i class="fas fa-user" style="font-size: 23px;"></i>&nbsp; <%= @user.name.upcase_first %></h2>
+      <hr  style="margin-top: 0px;">
+    </div>
+    <div class="row">
+      <div class="col">
+        <div class="avatar" style="text-align: center">
+          <%= image_tag @user.avatar,width: '300px' if @user.avatar? %>
+          <%= image_tag "http://via.placeholder.com/400x300", class: "rounded"  unless @user.avatar?%>
+        </div>
+      </div>
 
-<% if @user.avatar? %>
-<%= image_tag @user.avatar, class: "img-responsive img-rounded" %>
-<% else %>
-<img src="http://via.placeholder.com/350x350" class="img-responsive img-rounded">
-<% end %>
-<br>
+      <div class="col">
+        <%= @user.introduction %>
+        <% if current_user == @user %>
+          <br>
+          <%= link_to "編輯個人資料", edit_user_path(current_user), class: "btn btn-info float-right" %>
+        <% end %>
+      </div>
+    </div>
 
-<%= @user.email %><br>
-<%= @user.name %><br>
-<%= @user.introduction %><br>
-<%= @user.company %><br>
-<%= @user.job_title %><br>
-<%= @user.website %><br>
-<%= @user.twitter %><br>
-<%= @user.github %><br>
+    <div class="row" style="margin-top: 50px;">
+      <div class="col" style="text-align: center;">
+        <div class="upvote-total" style="background-color: rgba(230, 126, 34, 0.7); padding: 5px; border-radius: 30px; margin-bottom: 10px;">
+          <%= @user.upvotes_count %> Upvotes
+        </div>
+        <div class="row">
+        <div class="col upvote-info">
+          <ul>
+            <li><span><%= @user.questions_count %></span><span>Questions</span></li>
+            <li><span><%= @user.upvotes_count %></span><span>Upvotes Record</span></li>
+          </ul>
+        </div>
+        <div class="col upvote-info">
+          <ul>
+            <li><span><%= @user.solutions_count %></span><span>Solutions</span></li>
+            <li><span><%= @user.upvotes_count %></span><span>Upvotes Record</span></li>
+          </ul>
+        </div>
+      </div>
+      </div>
 
-<br>
-<%= link_to "編輯", edit_user_path(current_user) %>
+      <div class="col upvote-info">
+        <ul>
+          <li><span><i class="fas fa-envelope-open"></i></span><span><%= @user.email %></span></li>
+          <li><span><i class="fas fa-building"></i></span><span><%= @user.company %></span></li>
+          <li><span><i class="fas fa-briefcase"></i></span><span><%= @user.job_title %></span></li>
+          <li><span><i class="fas fa-user-circle"></i></span><span><%= @user.website %></span></li>
+          <li><span><i class="fab fa-twitter"></i></i></span><span><%= @user.twitter %></span></li>
+          <li><span><i class="fab fa-github"></i></span><span><%= @user.github %></span></li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
