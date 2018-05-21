@@ -1,0 +1,141 @@
+<div class="container">
+
+    <h2><%= @question.title %></h2>
+    <hr style="margin-top: 0px;">
+
+    <div class="row question" id="<%= @question.id %>">
+      <div class="col-1 q-info">
+        <div class="vote">
+          <i class="fas fa-caret-up"></i>
+          <p style="margin-bottom: 0;"><%= @question.upvotes_count %></p>
+          <i class="fas fa-caret-down"></i>
+        </div>
+        <div class="favorite">
+          <% if @question.is_favorited?(current_user) %>
+            <i class="unfavorite-btn fas fa-heart text-danger"></i>
+          <% else %>
+            <i class="favorite-btn fas fa-heart"></i>
+          <% end %>
+          <p class="favorites_count"><%= @question.favorites_count %></p>
+        </div>
+      </div>
+      <div class="col-9" style="margin-top: 20px;">
+        <%= @question.content %>
+      </div>
+      <div class="col-2" style="margin-top: 20px;">
+        <div class="user-box">
+          <%= link_to user_path(@question.user) do %>
+            <div class="user">
+              <div class="user-avatar">
+                <%= image_tag @question.user.avatar,width: '40px',height: '40px' if @question.user.avatar? %>
+                <%= image_tag "http://via.placeholder.com/40x40", class: "rounded"  unless @question.user.avatar?%>
+              </div>
+              <div class="user-name">
+                <h6><%= @question.user.name.upcase_first %></h6>
+              </div>
+            </div>
+            <% end %>
+            <div class="action-time">
+              <em><%= @question.created_at.to_s[0..15] %></em>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <div class="solutions" style="width: 98%; margin-left: 1%; margin-top: 40px;"><!-- solutions/frontend - start -->
+      <h4><%= @question.solutions.count %> Solutions</h4>
+      <hr style="margin-top: 0px;">
+
+      <% @solution_by_upvote.each do |solution| %>
+      <div class="row">
+        <div class="col-1 q-info">
+          <div class="vote">
+            <i class="fas fa-caret-up"></i>
+            <p style="margin-bottom: 0;"><%= solution.upvotes_count %></p>
+            <i class="fas fa-caret-down"></i>
+          </div>
+        </div>
+
+        <div class="col-9" style="margin-top: 20px;">
+          <%= solution.content %>
+        </div>
+
+        <div class="col-2" style="margin-top: 20px;">
+          <div class="user-box">
+            <%= link_to user_path(solution.user) do %>
+              <div class="user">
+                <div class="user-avatar">
+                  <%= image_tag solution.user.avatar,width: '40px',height: '40px' if solution.user.avatar? %>
+                  <%= image_tag "http://via.placeholder.com/40x40", class: "rounded"  unless solution.user.avatar?%>
+                </div>
+                <div class="user-name">
+                  <h6><%= solution.user.name.upcase_first %></h6>
+                </div>
+              </div>
+            <% end %>
+            <div class="action-time">
+              <em><%= solution.created_at.to_s[0..15] %></em>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <% end %>
+    </div>
+
+    <div class="post-solution" style="width: 98%; margin-left: 1%; margin-top: 40px;">
+      <%= form_for [@question, @solution] do |f| %>
+        <div class="form-group">
+          <%= f.text_area :content, placeholder: "請在這裡輸入你想回答的敘述", class: "form-control", style: 'height: 100px' %>
+        </div>
+        <div class="form-group float-right">
+          <%= f.submit "提交你的回答", class: "btn btn-info" %>
+          <%= f.button "清空回答", type: :reset, class: "btn btn-default", style:'color: #17a2b8;' %>
+        </div>
+      <% end %>
+    </div><!-- solutions/frontend - end -->
+</div><!-- container - end -->
+
+
+<script>
+$(".favorite").on('click', '.favorite-btn', function(event){
+  var question_id = event.target.parentNode.parentNode.parentNode.id;
+  console.log(question_id);
+
+    $.ajax({
+      url: "/questions/" + question_id + "/favorite" ,
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        console.log(data["favorites_count"]);
+
+        $(".q-info").find(".favorite-btn").remove();
+        $(".favorite").find("p").remove();
+        $(".q-info").find(".favorite").append("<i class=\"unfavorite-btn fas fa-heart text-danger\"></i>");
+        $(".q-info").find(".favorite").append("<p class=\"favorites_count\">"+ data["favorites_count"] +"</p>");
+        console.log(question_id);
+      }
+    });
+});
+
+$(".favorite").on('click', '.unfavorite-btn', function(event){
+  var question_id = event.target.parentNode.parentNode.parentNode.id;
+  console.log(question_id);
+
+    $.ajax({
+      url: "/questions/" + question_id + "/unfavorite" ,
+      method: "POST",
+      dataType: "json",
+      success: function() {
+        var favorites_count = $(".favorite").find(".favorites_count").html();
+        console.log(favorites_count);
+
+        $(".q-info").find(".unfavorite-btn").remove();
+        $(".favorite").find("p").remove();
+        $(".q-info").find(".favorite").append("<i class=\"favorite-btn fas fa-heart\"></i>");
+        $(".q-info").find(".favorite").append("<p>"+ [favorites_count -1] +"</p>");
+        console.log(question_id);
+      }
+    });
+});
+</script>
