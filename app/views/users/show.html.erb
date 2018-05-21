@@ -1,0 +1,23 @@
+<h1>this is SHOW page of user</h1>
+
+<%= link_to "我的 favorite 清單", favorite_user_path(current_user) %>
+<br>
+
+<% if @user.avatar? %>
+<%= image_tag @user.avatar, class: "img-responsive img-rounded" %>
+<% else %>
+<img src="http://via.placeholder.com/350x350" class="img-responsive img-rounded">
+<% end %>
+<br>
+
+<%= @user.email %><br>
+<%= @user.name %><br>
+<%= @user.introduction %><br>
+<%= @user.company %><br>
+<%= @user.job_title %><br>
+<%= @user.website %><br>
+<%= @user.twitter %><br>
+<%= @user.github %><br>
+
+<br>
+<%= link_to "編輯", edit_user_path(current_user) %>

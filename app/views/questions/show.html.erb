@@ -1,0 +1,69 @@
+<div class="container">
+    <div class="title">
+    <h2><%= @question.title %></h2>
+    </div>
+    <hr>
+    <div class="question">
+      <i class="fas fa-caret-up"></i><%= @question.upvotes_count %><i class="fas fa-caret-down"></i> <br>
+      <i class="fas fa-heart"></i><%= @question.favorites_count %> <br>
+      <%= @question.content %> <br>
+      <%= @question.user.name.upcase_first %>
+      <%= @question.created_at.to_s[0..15] %>
+    </div>
+</div>
+
+
+
+
+    <div class="solutions" style="width: 98%; margin-left: 1%; margin-top: 40px;"><!-- solutions/frontend - start -->
+      <h4><%= @question.solutions.count %> Solutions</h4>
+      <hr style="margin-top: 0px;">
+
+      <% @solution_by_upvote.each do |solution| %>
+      <div class="row">
+        <div class="col-1 q-info">
+          <div class="vote">
+            <i class="fas fa-caret-up"></i>
+            <p style="margin-bottom: 0;"><%= solution.upvotes_count %></p>
+            <i class="fas fa-caret-down"></i>
+          </div>
+        </div>
+
+        <div class="col-9" style="margin-top: 20px;">
+          <%= solution.content %>
+        </div>
+
+        <div class="col-2" style="margin-top: 20px;">
+          <div class="user-box">
+            <%= link_to user_path(solution.user) do %>
+              <div class="user">
+                <div class="user-avatar">
+                  <%= image_tag solution.user.avatar,width: '40px',height: '40px' if solution.user.avatar? %>
+                  <%= image_tag "http://via.placeholder.com/40x40", class: "rounded"  unless solution.user.avatar?%>
+                </div>
+                <div class="user-name">
+                  <h6><%= solution.user.name.upcase_first %></h6>
+                </div>
+              </div>
+            <% end %>
+            <div class="action-time">
+              <em><%= solution.created_at.to_s[0..15] %></em>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <% end %>
+    </div>
+    <div class="post-solution" style="width: 98%; margin-left: 1%; margin-top: 40px;">
+      <%= form_for [@question, @solution] do |f| %>
+        <div class="form-group">
+          <%= f.text_area :content, placeholder: "請在這裡輸入你想回答的敘述", class: "form-control", style: 'height: 100px' %>
+        </div>
+        <div class="form-group float-right">
+          <%= f.submit "提交你的回答", class: "btn btn-info" %>
+          <%= f.button "清空回答", type: :reset, class: "btn btn-default", style:'color: #17a2b8;' %>
+        </div>
+      <% end %>
+    </div><!-- solutions/frontend - end -->
+</div><!-- container - end -->
