@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light bg-light">
   <a class="navbar-brand mx-auto" href="/">
-    Stackoverflow<i class="fab fa-stack-overflow"></i>
+    Stackoverflow <i class="fab fa-stack-overflow" style="color: orange;"></i>
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
     <span class="navbar-toggler-icon"></span>
@@ -8,10 +8,7 @@
   <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
       <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
+              <%= link_to 'Question <i class="far fa-question-circle"></i>'.html_safe, questions_path, class:'nav-link' %>
           </li>
           <li class="nav-item">
               <a class="nav-link" href="#">Link</a>
@@ -25,7 +22,7 @@
           <span class="navbar-text" style="margin-right:25px;">Hi, <%= current_user.name.upcase_first %></span>
         </li>
         <li class="nav-item">
-          <span class="navbar-text" style="margin-right:25px;"><%= link_to "個人資料", user_path(current_user) %></span>
+          <%= link_to '<i class="fas fa-user"></i> Profile'.html_safe, user_path(current_user), class:'nav-link' %>
         </li>
         <li class="nav-item">
           <%= link_to('<i class="fas fa-sign-out-alt"></i> Logout'.html_safe, destroy_user_session_path, method: :delete, class:'nav-link') %>
