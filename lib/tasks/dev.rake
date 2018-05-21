@@ -41,8 +41,20 @@ namespace :dev  do
     end
     puts "have created #{Favorite.count} fake Favorites"
   end
+
+  task fake_solutions: :environment do
+    Question.all.each do |question|
+      3.times do |i|
+        question.solutions.create!(
+          content: FFaker::Lorem.paragraph,
+          user: User.all.sample
+        )
+      end
+    end
+    puts "have created #{Solution.count} fake Solutions"
+  end
   
-    task rebuild: ["db:drop", "db:create", "db:migrate", "db:seed", :fake_users, :fake_questions, :fake_favorites]
+    task rebuild: ["db:drop", "db:create", "db:migrate", "db:seed", :fake_users, :fake_questions, :fake_favorites, :fake_solutions]
 
   
 end
