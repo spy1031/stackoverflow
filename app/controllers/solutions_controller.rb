@@ -10,7 +10,6 @@ class SolutionsController < ApplicationController
   
   # 投贊成票
   def upvote
-    @question = Question.find(params[:question_id])
     @solution = Solution.find(params[:id])
     upvotes = Upvote.where(solution: @solution, user: current_user, status: "up")
     if upvotes.exists?
@@ -21,24 +20,22 @@ class SolutionsController < ApplicationController
       @solution.upvotes_count += 1
       @solution.save
     end
-    redirect_to question_path(@question)
+    render :json => {:s_upvotes_count => @solution.upvotes_count}
   end
 
   # 收回贊成票
   def unupvote
-    @question = Question.find(params[:question_id])
     @solution = Solution.find(params[:id])
     upvotes = Upvote.where(solution: @solution, user: current_user, status: "up")
     upvotes.destroy_all
     flash[:alert] = "取消贊成票"
     @solution.upvotes_count -= 1
     @solution.save
-    redirect_to question_path(@question)
+    render :json => {:s_upvotes_count => @solution.upvotes_count}
   end
   
    # 投反對票
   def downvote
-    @question = Question.find(params[:question_id])
     @solution = Solution.find(params[:id])
     upvotes = Upvote.where(solution: @solution, user: current_user, status: "down")
     if upvotes.exists?
@@ -49,19 +46,18 @@ class SolutionsController < ApplicationController
       @solution.upvotes_count -= 1
       @solution.save
     end
-    redirect_to question_path(@question)
+    render :json => {:s_upvotes_count => @solution.upvotes_count}
   end
 
   # 收回反對票
   def undownvote
-    @question = Question.find(params[:question_id])
     @solution = Solution.find(params[:id])
     upvotes = Upvote.where(solution: @solution, user: current_user, status: "down")
     upvotes.destroy_all
     flash[:alert] = "取消反對票"
     @solution.upvotes_count += 1
     @solution.save
-    redirect_to question_path(@question)
+    render :json => {:s_upvotes_count => @solution.upvotes_count}
   end
 
   private

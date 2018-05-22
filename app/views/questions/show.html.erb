@@ -5,11 +5,26 @@
 
     <div class="row question" id="<%= @question.id %>">
       <div class="col-1 q-info">
-        <div class="vote">
-          <i class="fas fa-caret-up"></i>
-          <p style="margin-bottom: 0;"><%= @question.upvotes_count %></p>
-          <i class="fas fa-caret-down"></i>
+        <div class="vote question-vote">
+
+          <% if @question.have_voted?(current_user) && @question.voted_upvote?(current_user) == true %>
+            <span class="fas fa-caret-up unupvote-question" style="color: orange;"></span>
+            <p class="upvotes_count" style="margin-bottom: 0;"><%= @question.upvotes_count %></p>
+            <span class="fas fa-caret-down downvote-question" style="pointer-events: none;"></span>
+
+          <% elsif @question.have_voted?(current_user) && @question.voted_upvote?(current_user) == false %>
+             <span class="fas fa-caret-up upvote-question" style="pointer-events: none;"></span>
+             <p class="upvotes_count" style="margin-bottom: 0;"><%= @question.upvotes_count %></p>
+             <span class="fas fa-caret-down undownvote-question" style="color: orange;"></span>
+
+           <% else %>
+            <span class="fas fa-caret-up upvote-question"></span>
+            <p class="upvotes_count" style="margin-bottom: 0;"><%= @question.upvotes_count %></p>
+            <span class="fas fa-caret-down downvote-question"></span>
+
+          <% end %>
         </div>
+
         <div class="favorite">
           <% if @question.is_favorited?(current_user) %>
             <i class="unfavorite-btn fas fa-heart text-danger"></i>
@@ -47,12 +62,26 @@
       <hr style="margin-top: 0px;">
 
       <% @solution_by_upvote.each do |solution| %>
-      <div class="row">
+      <div class="row"   id="<%= solution.id %>">
         <div class="col-1 q-info">
-          <div class="vote">
-            <i class="fas fa-caret-up"></i>
-            <p style="margin-bottom: 0;"><%= solution.upvotes_count %></p>
-            <i class="fas fa-caret-down"></i>
+          <div class="vote solution-vote">
+            
+          <% if solution.have_voted?(current_user) && solution.voted_upvote?(current_user) == true %>
+            <span class="fas fa-caret-up unupvote-solution" style="color: orange;"></span>
+            <p class="upvotes_count" style="margin-bottom: 0;"><%= solution.upvotes_count %></p>
+            <span class="fas fa-caret-down downvote-solution" style="pointer-events: none;"></span>
+
+          <% elsif solution.have_voted?(current_user) && solution.voted_upvote?(current_user) == false %>
+             <span class="fas fa-caret-up upvote-solution" style="pointer-events: none;"></span>
+             <p class="upvotes_count" style="margin-bottom: 0;"><%= solution.upvotes_count %></p>
+             <span class="fas fa-caret-down undownvote-solution" style="color: orange;"></span>
+
+           <% else %>
+            <span class="fas fa-caret-up upvote-solution"></span>
+            <p class="upvotes_count" style="margin-bottom: 0;"><%= solution.upvotes_count %></p>
+            <span class="fas fa-caret-down downvote-solution"></span>
+
+          <% end %>
           </div>
         </div>
 
@@ -135,6 +164,187 @@ $(".favorite").on('click', '.unfavorite-btn', function(event){
         $(".q-info").find(".favorite").append("<i class=\"favorite-btn fas fa-heart\"></i>");
         $(".q-info").find(".favorite").append("<p>"+ [favorites_count -1] +"</p>");
         console.log(question_id);
+      }
+    });
+});
+</script> 
+
+<!-- qusetion-vote/frontend - start -->
+<script>
+  //投贊成票
+$(".question-vote").on('click', '.upvote-question', function(event){
+  var question_id = event.target.parentNode.parentNode.parentNode.id;
+  console.log(question_id);
+    $.ajax({
+      url: "/questions/" + question_id + "/upvote" ,
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        var votes_count = data["q_upvotes_count"];
+        console.log(votes_count);
+        $(".question").find(".question-vote").html("<span class=\"fas fa-caret-up unupvote-question\" style=\"color: orange;\"></span>");
+        $(".question").find(".question-vote").append("<p class=\"upvotes_count\" style=\"margin-bottom: 0;\"></p>");
+        $(".question").find(".upvotes_count").html(votes_count);
+        $(".question").find(".question-vote").append("<span class=\"fas fa-caret-down downvote-question\"></span>");
+        $(".downvote-question").css("pointer-events", "none");
+        console.log(question_id);
+      }
+    });
+});
+
+   //取消贊成票
+$(".question-vote").on('click', '.unupvote-question', function(event){
+  var question_id = event.target.parentNode.parentNode.parentNode.id;
+  console.log(question_id);
+    $.ajax({
+      url: "/questions/" + question_id + "/unupvote" ,
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        var votes_count = data["q_upvotes_count"];
+        console.log(votes_count);
+        $(".question").find(".question-vote").html("<span class=\"fas fa-caret-up upvote-question\"></span>");
+        $(".question").find(".question-vote").append("<p class=\"upvotes_count\" style=\"margin-bottom: 0;\"></p>");
+        $(".question").find(".upvotes_count").html(votes_count);
+        $(".question").find(".question-vote").append("<span class=\"fas fa-caret-down downvote-question\"></span>");
+        console.log(question_id);
+      }
+    });
+});
+
+
+  //投反對票
+$(".question-vote").on('click', '.downvote-question', function(event){
+  var question_id = event.target.parentNode.parentNode.parentNode.id;
+  console.log(question_id);
+    $.ajax({
+      url: "/questions/" + question_id + "/downvote" ,
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        var votes_count = data["q_upvotes_count"];
+        console.log(votes_count);
+        $(".question").find(".question-vote").html("<span class=\"fas fa-caret-up upvote-question\"></span>");
+        $(".question").find(".question-vote").append("<p class=\"upvotes_count\" style=\"margin-bottom: 0;\"></p>");
+        $(".question").find(".upvotes_count").html(votes_count);
+        $(".question").find(".question-vote").append("<span class=\"fas fa-caret-down undownvote-question\" style=\"color: orange;\"></span>");
+        $(".upvote-question").css("pointer-events", "none");
+        console.log(question_id);
+      }
+    });
+});
+
+  //取消反對票
+$(".question-vote").on('click', '.undownvote-question', function(event){
+  var question_id = event.target.parentNode.parentNode.parentNode.id;
+  console.log(question_id);
+    $.ajax({
+      url: "/questions/" + question_id + "/undownvote" ,
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        var votes_count = data["q_upvotes_count"];
+        console.log(votes_count);
+        $(".question").find(".question-vote").html("<span class=\"fas fa-caret-up upvote-question\"></span>");
+        $(".question").find(".question-vote").append("<p class=\"upvotes_count\" style=\"margin-bottom: 0;\"></p>");
+        $(".question").find(".upvotes_count").html(votes_count);
+        $(".question").find(".question-vote").append("<span class=\"fas fa-caret-down downvote-question\"></span>");
+        console.log(question_id);
+      }
+    });
+});
+</script>
+
+
+
+<!-- solution-vote/frontend - start -->
+<script>
+  //投贊成票
+$(".solution-vote").on('click', '.upvote-solution', function(event){
+  var solution_id = event.target.parentNode.parentNode.parentNode.id;
+  console.log(solution_id);
+    $.ajax({
+      url: "/solutions/" + solution_id + "/upvote" ,
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        var votes_count = data["s_upvotes_count"];
+        console.log(votes_count);
+
+
+        $(".solutions").find("#" + solution_id).find(".solution-vote").html("<span class=\"fas fa-caret-up unupvote-solution\" style=\"color: orange;\"></span>");
+        $(".solutions").find("#" + solution_id).find(".solution-vote").append("<p class=\"upvotes_count\" style=\"margin-bottom: 0;\"></p>");
+        $(".solutions").find("#" + solution_id).find(".upvotes_count").html(votes_count);
+        $(".solutions").find("#" + solution_id).find(".solution-vote").append("<span class=\"fas fa-caret-down downvote-solution\"></span>");
+        $(".solutions").find("#" + solution_id).find(".downvote-solution").css("pointer-events", "none");
+
+        console.log(solution_id);
+      }
+    });
+});
+  //取消贊成票
+$(".solution-vote").on('click', '.unupvote-solution', function(event){
+  var solution_id = event.target.parentNode.parentNode.parentNode.id;
+  console.log(solution_id);
+    $.ajax({
+      url: "/solutions/" + solution_id + "/unupvote" ,
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        var votes_count = data["s_upvotes_count"];
+        console.log(votes_count);
+
+         $(".solutions").find("#" + solution_id).find(".solution-vote").html("<span class=\"fas fa-caret-up upvote-solution\"></span>");
+         $(".solutions").find("#" + solution_id).find(".solution-vote").append("<p class=\"upvotes_count\" style=\"margin-bottom: 0;\"></p>");
+        $(".solutions").find("#" + solution_id).find(".upvotes_count").html(votes_count);
+        $(".solutions").find("#" + solution_id).find(".solution-vote").append("<span class=\"fas fa-caret-down downvote-solution\"></span>");
+
+        console.log(solution_id);
+      }
+    });
+});
+
+  //投反對票
+$(".solution-vote").on('click', '.downvote-solution', function(event){
+  var solution_id = event.target.parentNode.parentNode.parentNode.id;
+  console.log(solution_id);
+    $.ajax({
+      url: "/solutions/" + solution_id + "/downvote" ,
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        var votes_count = data["s_upvotes_count"];
+        console.log(votes_count);
+
+        $(".solutions").find("#" + solution_id).find(".solution-vote").html("<span class=\"fas fa-caret-up upvote-solution\"></span>");
+       $(".solutions").find("#" + solution_id).find(".solution-vote").append("<p class=\"upvotes_count\" style=\"margin-bottom: 0;\"></p>");
+        $(".solutions").find("#" + solution_id).find(".upvotes_count").html(votes_count);
+        $(".solutions").find("#" + solution_id).find(".solution-vote").append("<span class=\"fas fa-caret-down undownvote-solution\" style=\"color: orange;\"></span>");
+         $(".solutions").find("#" + solution_id).find(".upvote-solution").css("pointer-events", "none");
+
+        console.log(solution_id);
+      }
+    });
+});
+
+  //取消反對票
+$(".solution-vote").on('click', '.undownvote-solution', function(event){
+  var solution_id = event.target.parentNode.parentNode.parentNode.id;
+  console.log(solution_id);
+    $.ajax({
+      url: "/solutions/" + solution_id + "/undownvote" ,
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        var votes_count = data["s_upvotes_count"];
+        console.log(votes_count);
+
+      $(".solutions").find("#" + solution_id).find(".solution-vote").html("<span class=\"fas fa-caret-up upvote-solution\"></span>");
+      $(".solutions").find("#" + solution_id).find(".solution-vote").append("<p class=\"upvotes_count\" style=\"margin-bottom: 0;\"></p>");
+      $(".solutions").find("#" + solution_id).find(".upvotes_count").html(votes_count);
+      $(".solutions").find("#" + solution_id).find(".solution-vote").append("<span class=\"fas fa-caret-down downvote-solution\"></span>");
+
+        console.log(solution_id);
       }
     });
 });

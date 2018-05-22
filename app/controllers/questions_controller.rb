@@ -52,7 +52,7 @@ class QuestionsController < ApplicationController
       @question.upvotes_count += 1
       @question.save
     end
-    redirect_to question_path(@question)
+    render :json => {:q_upvotes_count => @question.upvotes_count}
   end
 
   # 收回贊成票
@@ -62,7 +62,8 @@ class QuestionsController < ApplicationController
     flash[:alert] = "取消贊成票"
     @question.upvotes_count -= 1
     @question.save
-    redirect_to question_path(@question)
+    
+    render :json => {:q_upvotes_count => @question.upvotes_count}
   end
   
   # 投反對票
@@ -76,7 +77,7 @@ class QuestionsController < ApplicationController
       @question.upvotes_count -= 1
       @question.save
     end
-    redirect_to question_path(@question)
+    render :json => {:q_upvotes_count => @question.upvotes_count}
   end
 
   # 收回反對票
@@ -86,7 +87,8 @@ class QuestionsController < ApplicationController
     flash[:alert] = "取消反對票"
     @question.upvotes_count += 1
     @question.save
-    redirect_to question_path(@question)
+    
+    render :json => {:q_upvotes_count => @question.upvotes_count}
   end
   
   private
