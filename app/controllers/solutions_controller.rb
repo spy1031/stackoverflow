@@ -15,7 +15,6 @@ class SolutionsController < ApplicationController
     if upvotes.exists?
       flash[:alert] = "已投過贊成票"
     else
-      flash[:notice] = "投了贊成票"
       @solution.upvotes.create!(user: current_user, status: "up")
       @solution.upvotes_count += 1
       @solution.save
@@ -28,7 +27,6 @@ class SolutionsController < ApplicationController
     @solution = Solution.find(params[:id])
     upvotes = Upvote.where(solution: @solution, user: current_user, status: "up")
     upvotes.destroy_all
-    flash[:alert] = "取消贊成票"
     @solution.upvotes_count -= 1
     @solution.save
     render :json => {:s_upvotes_count => @solution.upvotes_count}
@@ -41,7 +39,6 @@ class SolutionsController < ApplicationController
     if upvotes.exists?
       flash[:alert] = "已投過反對票"
     else
-      flash[:notice] = "投了反對票"
       @solution.upvotes.create!(user: current_user, status: "down")
       @solution.upvotes_count -= 1
       @solution.save
@@ -54,7 +51,6 @@ class SolutionsController < ApplicationController
     @solution = Solution.find(params[:id])
     upvotes = Upvote.where(solution: @solution, user: current_user, status: "down")
     upvotes.destroy_all
-    flash[:alert] = "取消反對票"
     @solution.upvotes_count += 1
     @solution.save
     render :json => {:s_upvotes_count => @solution.upvotes_count}

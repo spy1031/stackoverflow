@@ -187,7 +187,7 @@ $(".question-vote").on('click', '.upvote-question', function(event){
         $(".question").find(".upvotes_count").html(votes_count);
         $(".question").find(".question-vote").append("<span class=\"fas fa-caret-down downvote-question\"></span>");
         $(".downvote-question").css("pointer-events", "none");
-        $('#flash-notice').addClass('alert alert-success alert-dismissible fade show').removeClass('alert-danger')
+        $('#flash-notice').addClass('alert alert-success alert-dismissible fade show target container-fluid').removeClass('alert-danger')
         $('#flash-notice').html("Upvote this Question：<%= @question.title %>").slideDown(500).delay(2000).slideUp(500);
         console.log(question_id);
       }
@@ -209,7 +209,7 @@ $(".question-vote").on('click', '.unupvote-question', function(event){
         $(".question").find(".question-vote").append("<p class=\"upvotes_count\" style=\"margin-bottom: 0;\"></p>");
         $(".question").find(".upvotes_count").html(votes_count);
         $(".question").find(".question-vote").append("<span class=\"fas fa-caret-down downvote-question\"></span>");
-        $('#flash-notice').addClass('alert alert-danger alert-dismissible fade show').removeClass('alert-success')
+        $('#flash-notice').addClass('alert alert-danger alert-dismissible fade show target container-fluid').removeClass('alert-success')
         $('#flash-notice').html("Cancel your Upvote of this Question：<%= @question.title %>").slideDown(500).delay(2000).slideUp(500);
         console.log(question_id);
       }
@@ -233,7 +233,7 @@ $(".question-vote").on('click', '.downvote-question', function(event){
         $(".question").find(".upvotes_count").html(votes_count);
         $(".question").find(".question-vote").append("<span class=\"fas fa-caret-down undownvote-question\" style=\"color: orange;\"></span>");
         $(".upvote-question").css("pointer-events", "none");
-        $('#flash-notice').addClass('alert alert-success alert-dismissible fade show').removeClass('alert-danger')
+        $('#flash-notice').addClass('alert alert-success alert-dismissible fade show target container-fluid').removeClass('alert-danger')
         $('#flash-notice').html("Downvote this Question：<%= @question.title %>").slideDown(500).delay(2000).slideUp(500);
         console.log(question_id);
       }
@@ -255,7 +255,7 @@ $(".question-vote").on('click', '.undownvote-question', function(event){
         $(".question").find(".question-vote").append("<p class=\"upvotes_count\" style=\"margin-bottom: 0;\"></p>");
         $(".question").find(".upvotes_count").html(votes_count);
         $(".question").find(".question-vote").append("<span class=\"fas fa-caret-down downvote-question\"></span>");
-        $('#flash-notice').addClass('alert alert-danger alert-dismissible fade show').removeClass('alert-success')
+        $('#flash-notice').addClass('alert alert-danger alert-dismissible fade show target container-fluid').removeClass('alert-success')
         $('#flash-notice').html("Cancel your Downvote of this Question：<%= @question.title %>").slideDown(500).delay(2000).slideUp(500);
         console.log(question_id);
       }
@@ -285,6 +285,8 @@ $(".solution-vote").on('click', '.upvote-solution', function(event){
         $(".solutions").find("#" + solution_id).find(".upvotes_count").html(votes_count);
         $(".solutions").find("#" + solution_id).find(".solution-vote").append("<span class=\"fas fa-caret-down downvote-solution\"></span>");
         $(".solutions").find("#" + solution_id).find(".downvote-solution").css("pointer-events", "none");
+        $('#flash-notice').addClass('alert alert-success alert-dismissible fade show target container-fluid').removeClass('alert-danger')
+        $('#flash-notice').html("Upvote this Solution").slideDown(500).delay(2000).slideUp(500);
 
         console.log(solution_id);
       }
@@ -306,6 +308,8 @@ $(".solution-vote").on('click', '.unupvote-solution', function(event){
          $(".solutions").find("#" + solution_id).find(".solution-vote").append("<p class=\"upvotes_count\" style=\"margin-bottom: 0;\"></p>");
         $(".solutions").find("#" + solution_id).find(".upvotes_count").html(votes_count);
         $(".solutions").find("#" + solution_id).find(".solution-vote").append("<span class=\"fas fa-caret-down downvote-solution\"></span>");
+        $('#flash-notice').addClass('alert alert-danger alert-dismissible fade show target container-fluid').removeClass('alert-success')
+        $('#flash-notice').html("Cancel your Upvote of this Solution").slideDown(500).delay(2000).slideUp(500);
 
         console.log(solution_id);
       }
@@ -329,6 +333,8 @@ $(".solution-vote").on('click', '.downvote-solution', function(event){
         $(".solutions").find("#" + solution_id).find(".upvotes_count").html(votes_count);
         $(".solutions").find("#" + solution_id).find(".solution-vote").append("<span class=\"fas fa-caret-down undownvote-solution\" style=\"color: orange;\"></span>");
          $(".solutions").find("#" + solution_id).find(".upvote-solution").css("pointer-events", "none");
+        $('#flash-notice').addClass('alert alert-success alert-dismissible fade show target container-fluid').removeClass('alert-danger')
+        $('#flash-notice').html("Downvote this Solution").slideDown(500).delay(2000).slideUp(500);
 
         console.log(solution_id);
       }
@@ -351,6 +357,8 @@ $(".solution-vote").on('click', '.undownvote-solution', function(event){
       $(".solutions").find("#" + solution_id).find(".solution-vote").append("<p class=\"upvotes_count\" style=\"margin-bottom: 0;\"></p>");
       $(".solutions").find("#" + solution_id).find(".upvotes_count").html(votes_count);
       $(".solutions").find("#" + solution_id).find(".solution-vote").append("<span class=\"fas fa-caret-down downvote-solution\"></span>");
+      $('#flash-notice').addClass('alert alert-danger alert-dismissible fade show target container-fluid target container-fluid').removeClass('alert-success')
+      $('#flash-notice').html("Cancel your Downvote of this Solution").slideDown(500).delay(2000).slideUp(500);
 
         console.log(solution_id);
       }

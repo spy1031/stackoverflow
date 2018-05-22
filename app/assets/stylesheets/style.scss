@@ -16,9 +16,6 @@ a {
   text-decoration: none !important;
 }
 
-.fas {
-  cursor: pointer;
-}
 /* ============================== 00. header =========================*/
 .navbar-nav {
   li{
@@ -73,9 +70,15 @@ a {
 
   .favorite {
     font-size: 23px;
+    .fa-heart {
+      cursor: pointer;
+    }
   }
 }
 
+.fa-caret-up, .fa-caret-down {
+  cursor: pointer;
+}
 /* ============================== 03. user#favorite /  =========================*/
 
 .favorite-list, .question-list {  /* 再額外加上條件 */
@@ -101,6 +104,12 @@ a {
 }
 }
 
+/* ------- upvote-flash ------ */
+.target {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
 /* ============================== 05. user#show =========================*/
 .upvote-info {
   overflow: hidden;
