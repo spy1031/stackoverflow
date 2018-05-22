@@ -1,54 +1,201 @@
 <div class="container">
-    <div class="title">
+
     <h2><%= @question.title %></h2>
-    </div>
-    <hr>
-    <div class="question">
-      <%= link_to "投贊成票", upvote_question_path(@question), method: :post, data: { :"disable-with" => "Waiting...." } %> ｜<%= link_to "收回贊成票", unupvote_question_path(@question), method: :post %>
-          
-      <i class="fas fa-caret-up"></i>
-        <%= @question.upvotes_count %>
-      <i class="fas fa-caret-down"></i>
-      <%= link_to "投反對票", downvote_question_path(@question), method: :post, data: { :"disable-with" => "Waiting...." } %> ｜<%= link_to "收回反對票", undownvote_question_path(@question), method: :post %> 
-      <br>
-      
-      <i class="fas fa-heart"></i><%= @question.favorites_count %> <br>
-      <%= @question.content %> <br>
-      <%= @question.user.name.upcase_first %>
-      <%= @question.created_at.to_s[0..15] %>
-    </div>
-</div>
+    <hr style="margin-top: 0px;">
 
-<div class="container">
-   
-    <% @solution_by_upvote.each do |solution| %>
-    <div>
-      <%= link_to "投贊成票", upvote_question_solution_path(@question, solution), method: :post, data: { :"disable-with" => "Waiting...." } %> ｜<%= link_to "收回贊成票", unupvote_question_solution_path(@question, solution), method: :post %>
-      
-      <i class="fas fa-caret-up"></i>
-      <%= solution.upvotes_count %>
-      <i class="fas fa-caret-down"></i> 
-      <%= link_to "投反對票", downvote_question_solution_path(@question, solution), method: :post, data: { :"disable-with" => "Waiting...." } %> ｜<%= link_to "收回反對票", undownvote_question_solution_path(@question, solution), method: :post %>
-      <br>
-      
-      <h5><%= solution.user.name %></h5>
-      <p><%= simple_format solution.content %></p>
-      <p class="text-muted">
-        <em><%= time_ago_in_words(solution.created_at) %> ago</em>
-      </p>
+    <div class="row question" id="<%= @question.id %>">
+      <div class="col-1 q-info">
+        <div class="vote question-vote">
+
+          <% if @question.have_voted?(current_user) && @question.voted_upvote?(current_user) == true %>
+            <span class="fas fa-caret-up unupvote-question" style="color: orange;"></span>
+            <p class="upvotes_count" style="margin-bottom: 0;"><%= @question.upvotes_count %></p>
+            <span class="fas fa-caret-down downvote-question" style="pointer-events: none;"></span>
+
+          <% elsif @question.have_voted?(current_user) && @question.voted_upvote?(current_user) == false %>
+             <span class="fas fa-caret-up upvote-question" style="pointer-events: none;"></span>
+             <p class="upvotes_count" style="margin-bottom: 0;"><%= @question.upvotes_count %></p>
+             <span class="fas fa-caret-down undownvote-question" style="color: orange;"></span>
+
+           <% else %>
+            <span class="fas fa-caret-up upvote-question"></span>
+            <p class="upvotes_count" style="margin-bottom: 0;"><%= @question.upvotes_count %></p>
+            <span class="fas fa-caret-down downvote-question"></span>
+
+          <% end %>
+        </div>
+        <div class="favorite">
+            <i class="unfavorite-btn fas fa-heart text-danger"></i>
+            <i class="favorite-btn fas fa-heart"></i>
+          <p class="favorites_count"><%= @question.favorites_count %></p>
+        </div>
+      </div>
+      <div class="col-9" style="margin-top: 20px;">
+        <%= @question.content %>
+      </div>
+      <div class="col-2" style="margin-top: 20px;">
+        <div class="user-box">
+          <%= link_to user_path(@question.user) do %>
+            <div class="user">
+              <div class="user-avatar">
+                <%= image_tag @question.user.avatar,width: '40px',height: '40px' if @question.user.avatar? %>
+                <%= image_tag "http://via.placeholder.com/40x40", class: "rounded"  unless @question.user.avatar?%>
+              </div>
+              <div class="user-name">
+                <h6><%= @question.user.name.upcase_first %></h6>
+              </div>
+            </div>
+            <% end %>
+            <div class="action-time">
+              <em><%= @question.created_at.to_s[0..15] %></em>
+            </div>
+          </div>
+      </div>
     </div>
-    <hr>
-    <% end %> 
-   
-    <%= form_for [@question, @solution] do |f| %>
-    <div class="form-group">
-      <%= f.text_area :content, placeholder: "請在這裡輸入你想回答的敘述", class: "form-control" %>
+
+    <div class="solutions" style="width: 98%; margin-left: 1%; margin-top: 40px;"><!-- solutions/frontend - start -->
+      <h4><%= @question.solutions.count %> Solutions</h4>
+      <hr style="margin-top: 0px;">
+
+      <% @solution_by_upvote.each do |solution| %>
+      <div class="row">
+        <div class="col-1 q-info">
+          <div class="vote">
+            <i class="fas fa-caret-up"></i>
+            <p style="margin-bottom: 0;"><%= solution.upvotes_count %></p>
+            <i class="fas fa-caret-down"></i>
+          </div>
+        </div>
+
+        <div class="col-9" style="margin-top: 20px;">
+          <%= solution.content %>
+        </div>
+
+        <div class="col-2" style="margin-top: 20px;">
+          <div class="user-box">
+            <%= link_to user_path(solution.user) do %>
+              <div class="user">
+                <div class="user-avatar">
+                  <%= image_tag solution.user.avatar,width: '40px',height: '40px' if solution.user.avatar? %>
+                  <%= image_tag "http://via.placeholder.com/40x40", class: "rounded"  unless solution.user.avatar?%>
+                </div>
+                <div class="user-name">
+                  <h6><%= solution.user.name.upcase_first %></h6>
+                </div>
+              </div>
+            <% end %>
+            <div class="action-time">
+              <em><%= solution.created_at.to_s[0..15] %></em>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <% end %>
     </div>
-    <div class="form-group">
-      <%= f.submit "確認", class: "btn btn-primary" %>
-      <%= f.button "清空", type: :reset, class: "btn btn-default" %>
-    </div>
-  <% end %>
-</div>
+
+    <div class="post-solution" style="width: 98%; margin-left: 1%; margin-top: 40px;">
+      <%= form_for [@question, @solution] do |f| %>
+        <div class="form-group">
+          <%= f.text_area :content, placeholder: "請在這裡輸入你想回答的敘述", class: "form-control", style: 'height: 100px' %>
+        </div>
+        <div class="form-group float-right">
+          <%= f.submit "提交你的回答", class: "btn btn-info" %>
+          <%= f.button "清空回答", type: :reset, class: "btn btn-default", style:'color: #17a2b8;' %>
+        </div>
+      <% end %>
+    </div><!-- solutions/frontend - end -->
+</div><!-- container - end -->
 
 
+<!-- qusetion-vote/frontend - start -->
+<script>
+  //投贊成票
+$(".question-vote").on('click', '.upvote-question', function(event){
+  var question_id = event.target.parentNode.parentNode.parentNode.id;
+  console.log(question_id);
+    $.ajax({
+      url: "/questions/" + question_id + "/upvote" ,
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        var votes_count = data["q_upvotes_count"];
+        console.log(votes_count);
+
+        $(".q-info").find(".question-vote").html("<span class=\"fas fa-caret-up unupvote-question\" style=\"color: orange;\"></span>");
+        $(".q-info").find(".question-vote").append("<p class=\"upvotes_count\" style=\"margin-bottom: 0;\"></p>");
+        $(".q-info").find(".upvotes_count").html(votes_count);
+        $(".q-info").find(".question-vote").append("<span class=\"fas fa-caret-down downvote-question\"></span>");
+        $(".downvote-question").css("pointer-events", "none");
+
+        console.log(question_id);
+      }
+    });
+});
+  //取消贊成票
+$(".question-vote").on('click', '.unupvote-question', function(event){
+  var question_id = event.target.parentNode.parentNode.parentNode.id;
+  console.log(question_id);
+    $.ajax({
+      url: "/questions/" + question_id + "/unupvote" ,
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        var votes_count = data["q_upvotes_count"];
+        console.log(votes_count);
+
+        $(".q-info").find(".question-vote").html("<span class=\"fas fa-caret-up upvote-question\"></span>");
+        $(".q-info").find(".question-vote").append("<p class=\"upvotes_count\" style=\"margin-bottom: 0;\"></p>");
+        $(".q-info").find(".upvotes_count").html(votes_count);
+        $(".q-info").find(".question-vote").append("<span class=\"fas fa-caret-down downvote-question\"></span>");
+
+        console.log(question_id);
+      }
+    });
+});
+
+  //投反對票
+$(".question-vote").on('click', '.downvote-question', function(event){
+  var question_id = event.target.parentNode.parentNode.parentNode.id;
+  console.log(question_id);
+    $.ajax({
+      url: "/questions/" + question_id + "/downvote" ,
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        var votes_count = data["q_upvotes_count"];
+        console.log(votes_count);
+
+        $(".q-info").find(".question-vote").html("<span class=\"fas fa-caret-up upvote-question\"></span>");
+        $(".q-info").find(".question-vote").append("<p class=\"upvotes_count\" style=\"margin-bottom: 0;\"></p>");
+        $(".q-info").find(".upvotes_count").html(votes_count);
+        $(".q-info").find(".question-vote").append("<span class=\"fas fa-caret-down undownvote-question\" style=\"color: orange;\"></span>");
+        $(".upvote-question").css("pointer-events", "none");
+
+        console.log(question_id);
+      }
+    });
+});
+
+  //取消反對票
+$(".question-vote").on('click', '.undownvote-question', function(event){
+  var question_id = event.target.parentNode.parentNode.parentNode.id;
+  console.log(question_id);
+    $.ajax({
+      url: "/questions/" + question_id + "/undownvote" ,
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        var votes_count = data["q_upvotes_count"];
+        console.log(votes_count);
+
+        $(".q-info").find(".question-vote").html("<span class=\"fas fa-caret-up upvote-question\"></span>");
+        $(".q-info").find(".question-vote").append("<p class=\"upvotes_count\" style=\"margin-bottom: 0;\"></p>");
+        $(".q-info").find(".upvotes_count").html(votes_count);
+        $(".q-info").find(".question-vote").append("<span class=\"fas fa-caret-down downvote-question\"></span>");
+
+        console.log(question_id);
+      }
+    });
+});
+</script>
