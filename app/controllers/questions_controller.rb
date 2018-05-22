@@ -47,7 +47,7 @@ class QuestionsController < ApplicationController
     if upvotes.exists?
       flash[:alert] = "已投過贊成票"
     else
-      flash[:notice] = "投了贊成票"
+      
       @question.upvotes.create!(user: current_user, status: "up")
       @question.upvotes_count += 1
       @question.save
@@ -59,7 +59,7 @@ class QuestionsController < ApplicationController
   def unupvote
     upvotes = Upvote.where(question: @question, user: current_user, status: "up")
     upvotes.destroy_all
-    flash[:alert] = "取消贊成票"
+    
     @question.upvotes_count -= 1
     @question.save
     
@@ -72,7 +72,7 @@ class QuestionsController < ApplicationController
     if upvotes.exists?
       flash[:alert] = "已投過反對票"
     else
-      flash[:notice] = "投了反對票"
+      
       @question.upvotes.create!(user: current_user, status: "down")
       @question.upvotes_count -= 1
       @question.save
@@ -84,7 +84,7 @@ class QuestionsController < ApplicationController
   def undownvote
     upvotes = Upvote.where(question: @question, user: current_user, status: "down")
     upvotes.destroy_all
-    flash[:alert] = "取消反對票"
+    
     @question.upvotes_count += 1
     @question.save
     
