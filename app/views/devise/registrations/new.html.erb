@@ -7,7 +7,8 @@
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
         <%= devise_error_messages! %>
         <div class="field">
-        <%= f.text_field :name, autofocus: true, autocomplete: "name", placeholder:"UserName", class: 'form-control' %>
+        <%= f.text_field :name, autofocus: true, autocomplete: "name", placeholder:"UserName", class: 'form-control', id:'username' %>
+        <div id = "feedback"></div>
         </div>
         <hr style="width: 60%;">
         <div class="field">
@@ -31,3 +32,29 @@
     </div>
   </div>
 </div>
+
+<script>
+  function checkUsername() {
+    var username = el.value;
+    if (username.length < 5) {
+      el.className = 'is-invalid form-control';
+      elMsg.className = "invalid-feedback";
+      elMsg.textContent = 'Not long enough'
+    } else {
+      el.className = 'is-valid form-control';
+      elMsg.className = "valid-feedback";
+      elMsg.textContent = 'You can use this name';
+    }
+  }
+
+  function tipUsername() {
+    elMsg.className = 'tip';
+    elMsg.innerHTML = 'Username must be at least 5 char';
+  }
+
+  var el = document.getElementById('username');
+  var elMsg = document.getElementById('feedback');
+
+  el.addEventListener('focus', tipUsername, false);
+  el.addEventListener('blur', checkUsername, false);
+</script>
